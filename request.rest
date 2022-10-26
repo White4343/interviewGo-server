@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "mail": "a@gmail.com",
+  "password": "123"
+}
+
+###
+GET http://localhost:8080/api/interview
+Authorization: Bearer fdfdsfdfsfdsdfsdfsdf8sdfsdf7sdf8sdfssdf8sf7
