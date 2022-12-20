@@ -4,9 +4,9 @@ const {ROLE} = require("../utils/roles");
 class InterviewController {
     async createInterview(req, res) {
         try {
-            const {subj_id, length, user_id, date_time} = req.body
-            const newInterview = await db.query(`INSERT INTO interview (subj_id, length, user_id, date_time) values 
-                ($1, $2, $3, $4) RETURNING *`, [subj_id, length, user_id, date_time])
+            const {subj_id, length, user_id, date_time, contributor} = req.body
+            const newInterview = await db.query(`INSERT INTO interview (subj_id, length, user_id, date_time, contributor) values 
+                ($1, $2, $3, $4, $5) RETURNING *`, [subj_id, length, user_id, date_time, contributor])
             res.json(newInterview.rows[0])
         } catch (e) {
             console.log(e)
@@ -18,9 +18,9 @@ class InterviewController {
 
     async updateInterview(req, res) {
         try {
-            const {id, subj_id, length, user_id, date_time} = req.body
-            const updInterview = await db.query(`UPDATE interview SET subj_id = $1, length = $2, user_id = $3, date_time = $4 
-                WHERE interv_id = $5 RETURNING *`, [subj_id, length, user_id, date_time, id])
+            const {id, subj_id, length, user_id, date_time, contributor} = req.body
+            const updInterview = await db.query(`UPDATE interview SET subj_id = $1, length = $2, user_id = $3, date_time = $4, contributor = $5 
+                WHERE interv_id = $6 RETURNING *`, [subj_id, length, user_id, date_time, contributor, id])
             res.json(updInterview.rows[0])
         } catch (e) {
             console.log(e)
@@ -47,14 +47,34 @@ class InterviewController {
         try {
             const id = req.params.id
             const interview = await db.query(`SELECT * FROM interview WHERE interv_id = $1`, [id])
-            if (req.user.user_id !== interview.user_id){
-                res.status(500).json({
-                    message: 'Can`t get interview.'
-                })
-            } else if (req.user.position === ROLE.ADMIN){
-                res.json(interview.rows[0])
-            }
+            // if (req.user.user_id !== interview.user_id){
+            //     res.status(500).json({
+            //         message: 'Can`t get interview.'
+            //     })
+            // } else if (req.user.position === ROLE.ADMIN){
+            //     res.json(interview.rows[0])
+            // }
             res.json(interview.rows[0])
+        } catch (e) {
+            console.log(e)
+            res.status(500).json({
+                message: 'Can`t get interview.'
+            })
+        }
+    }
+
+    async getInterviewsByUser(req, res) {
+        try {
+            const id = req.params.id
+            const interview = await db.query(`SELECT * FROM interview WHERE user_id = $1`, [id])
+            // if (req.user.user_id !== interview.user_id){
+            //     res.status(500).json({
+            //         message: 'Can`t get interview.'
+            //     })
+            // } else if (req.user.position === ROLE.ADMIN){
+            //     res.json(interview.rows[0])
+            // }
+            res.json(interview.rows)
         } catch (e) {
             console.log(e)
             res.status(500).json({
@@ -90,7 +110,7 @@ class InterviewController {
     async getInterviewResults(req, res) {
         try {
             const id = req.params.id
-            const interview = await db.query(`SELECT * FROM interview_questions WHERE interv_id = $1`, [id])
+            const interview = await db.query(`SELECT * FROM interview_questions JOIN questions ON interview_questions.ques_id = questions.ques_id WHERE interview_questions.interv_id = $1`, [id])
             res.json(interview.rows)
         } catch (e) {
             console.log(e)

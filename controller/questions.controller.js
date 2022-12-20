@@ -57,7 +57,7 @@ class QuestionsController {
 
     async getQuestions(req, res) {
         try {
-            const question = await db.query(`SELECT * FROM questions WHERE isTest != true`)
+            const question = await db.query(`SELECT * FROM questions`)
             res.json(question.rows)
         } catch (e) {
             console.log(e)

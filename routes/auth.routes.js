@@ -10,13 +10,13 @@ router.post('/login', async (req, res) => {
         const users = await db.query(`SELECT * FROM users WHERE mail = $1`, [mail])
         if (users.rows.length === 0)
             return res.status(401).json({
-                massage: "Email isn't correct"
+                message: "Email isn't correct"
             })
 
         const validPassword = await db.query(`SELECT * FROM users WHERE password = $1`, [password])
         if (validPassword.rows.length === 0)
             return res.status(401).json({
-                massage: "Password isn't correct"
+                message: "Password isn't correct"
             })
 
         let tokens = jwtToken(users.rows[0])

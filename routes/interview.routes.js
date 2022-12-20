@@ -6,6 +6,7 @@ const checkAdmin = require("../utils/checkAdmin");
 
 router.get('/interview', authToken, checkAdmin, interviewController.getInterviews)
 router.get('/interview/:id', authToken, interviewController.getInterview)
+router.get('/interview-user/:id', authToken, interviewController.getInterviewsByUser)
 router.get('/interview/test', authToken, interviewController.getTestInterviews)
 router.get('/interview/results/:id', authToken, interviewController.getInterviewResults)
 router.post('/interview', authToken, interviewController.createInterview)

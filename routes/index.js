@@ -5,6 +5,7 @@ const questionRouter = require('./question.routes')
 const interviewRouter = require('./interview.routes')
 const interviewQuestionsControllerListRouter = require('./interview-questions.routes')
 const authRouter = require('./auth.routes')
+const sensorsRouter = require('./sensors.routes')
 
 const routes = {
     subscriptionRouter,
@@ -13,7 +14,8 @@ const routes = {
     questionRouter,
     interviewRouter,
     interviewQuestionsControllerListRouter,
-    authRouter
+    authRouter,
+    sensorsRouter
 }
 
 module.exports = routes

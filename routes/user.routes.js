@@ -5,7 +5,7 @@ const authToken = require("../middleware/auth");
 
 router.post('/user', userController.createUser)
 router.get('/user', authToken, userController.getUsers)
-router.get('/user/:id', authToken, userController.getUser)
+router.get('/user/:mail', authToken, userController.getUser)
 router.put('/user', authToken, userController.updateUser)
 router.delete('/user/:id', authToken, userController.deleteUser)
 

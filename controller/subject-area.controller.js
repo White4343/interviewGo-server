@@ -84,7 +84,7 @@ class SubjectAreaController {
         try {
             const id = req.params.id
             const interviewSubjectArea = await db.query(`SELECT * FROM questions WHERE subj_id = $1`, [id])
-            res.json(interviewSubjectArea.rows[0])
+            res.json(interviewSubjectArea.rows)
         } catch (e) {
             console.log(e)
             res.status(500).json({
